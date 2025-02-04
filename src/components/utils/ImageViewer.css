@@ -1,0 +1,27 @@
+@keyframes zoomIn {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+// Updated on 2025-03-14 10:50:28
+// Updated on 2023-03-11 22:09:20
+// Updated on 2023-05-11 11:42:34
+// Updated on 2023-06-20 17:27:01
+// Updated on 2023-08-16 01:25:37
+// Updated on 2023-09-18 00:59:54
+// Updated on 2023-09-22 05:49:49
+// Updated on 2023-09-25 19:51:41
+// Updated on 2023-11-13 08:47:45
+// Updated on 2023-11-13 09:51:07
+// Updated on 2023-12-04 17:08:47
+// Updated on 2025-02-19 17:24:16
+// Updated on 2025-02-26 12:58:01
+// Updated on 2025-02-27 23:49:24
+// Updated on 2025-03-07 03:34:07
+// Updated on 2025-03-23 20:40:58
+// Updated on 2025-04-04 12:21:58

@@ -1,0 +1,59 @@
+@import "tailwindcss";
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+@font-face {
+  font-family: "AmongUs";
+  src: url("./assets/fonts/AmongUs.ttf");
+}
+
+@font-face {
+  font-family: "ShadowsIntoLight";
+  src: url("./assets/fonts/ShadowsIntoLight-Regular.ttf");
+}
+
+@font-face {
+  font-family: "GGSansRegular";
+  src: url("./assets/fonts/GGSansRegular.ttf");
+}
+
+body {
+  font-family: "GGSansRegular", sans-serif;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(60, 60, 60);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(200, 60, 60);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(200, 40, 40);
+  cursor: pointer;
+}
+
+.text-ellipsis-fade {
+  display: block;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  padding-right: 30px;
+}
+
+.text-ellipsis-fade::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 100%;
+  pointer-events: none;
+}
