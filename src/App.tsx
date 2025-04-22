@@ -5,6 +5,7 @@ import Sidebar from "./components/Sidebar";
 import ChatBubbles from "./components/ChatBubbles";
 import GreetingMessage from "./components/GreetingMessage";
 import MainTextbox from "./components/MainTextbox";
+import { SettingsProvider } from "./components/sidebarSubcomponents/SettingsForm";
 
 function App() {
   const chatManager = ChatManager.getInstance();
@@ -91,52 +92,56 @@ function App() {
   };
 
   return (
-    <div className="w-screen h-screen bg-[rgb(30,30,30)] flex">
-      <Sidebar
-        isCollapsed={isSidebarCollapsed}
-        toggleSidebar={() => setSidebarCollapsed((prev) => !prev)}
-        savedChats={savedChats}
-        onNewChat={handleNewChat}
-        onLoadChat={handleLoadChat}
-        onDeleteChat={handleDeleteChat}
-        onRenameChat={handleRenameChat}
-      />
-      <div
-        className={`flex flex-col transition-all duration-300 w-full ${
-          isSidebarCollapsed ? "ml-[20px] mr-[20px]" : "md:ml-[300px] ml-[0px]"
-        } ${
-          isChatStarted
-            ? "items-center justify-end"
-            : "items-center justify-center"
-        }`}
-      >
-        {!isChatStarted && <GreetingMessage />}
-
-        <ChatBubbles
-          userInput={userInput}
-          messages={messages}
-          model={currentModel}
-          supportsImages={supportsImages}
-          onAIResponse={(response) => {
-            if (response) {
-              syncState(chatManager.updateWithAIResponse(response, messages));
-            }
-          }}
+    <SettingsProvider>
+      <div className="w-screen h-screen bg-[rgb(30,30,30)] flex">
+        <Sidebar
+          isCollapsed={isSidebarCollapsed}
+          toggleSidebar={() => setSidebarCollapsed((prev) => !prev)}
+          savedChats={savedChats}
+          onNewChat={handleNewChat}
+          onLoadChat={handleLoadChat}
+          onDeleteChat={handleDeleteChat}
+          onRenameChat={handleRenameChat}
         />
-
         <div
-          className={`w-full flex justify-center ${
-            isChatStarted ? "mt-auto" : "mt-8"
+          className={`flex flex-col transition-all duration-300 w-full ${
+            isSidebarCollapsed
+              ? "ml-[20px] mr-[20px]"
+              : "md:ml-[300px] ml-[0px]"
+          } ${
+            isChatStarted
+              ? "items-center justify-end"
+              : "items-center justify-center"
           }`}
         >
-          <MainTextbox
-            setUserInput={handleUserInput}
-            setUserImage={handleUserImageWithText}
-            onModelChange={handleModelChange}
+          {!isChatStarted && <GreetingMessage />}
+
+          <ChatBubbles
+            userInput={userInput}
+            messages={messages}
+            model={currentModel}
+            supportsImages={supportsImages}
+            onAIResponse={(response) => {
+              if (response) {
+                syncState(chatManager.updateWithAIResponse(response, messages));
+              }
+            }}
           />
+
+          <div
+            className={`w-full flex justify-center ${
+              isChatStarted ? "mt-auto" : "mt-8"
+            }`}
+          >
+            <MainTextbox
+              setUserInput={handleUserInput}
+              setUserImage={handleUserImageWithText}
+              onModelChange={handleModelChange}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </SettingsProvider>
   );
 }
 

@@ -15,7 +15,9 @@ export const SettingsContext = React.createContext<{
 });
 
 const SettingsForm: React.FC<Props> = ({ isOpened, onClose }) => {
-  const [sendChatDirectly, setSendChatDirectly] = React.useState(false);
+  // Use the actual context to read and update values
+  const { sendChatDirectly, setSendChatDirectly } =
+    React.useContext(SettingsContext);
 
   // Close on escape key
   React.useEffect(() => {
@@ -94,7 +96,18 @@ export default SettingsForm;
 export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [sendChatDirectly, setSendChatDirectly] = React.useState(false);
+  // Initialize from localStorage if available
+  const storedValue = localStorage.getItem("sendChatDirectly");
+  const initialState = storedValue === "true";
+
+  const [sendChatDirectly, setSendChatDirectlyState] =
+    React.useState(initialState);
+
+  // Wrapper to persist the setting
+  const setSendChatDirectly = (value: boolean) => {
+    setSendChatDirectlyState(value);
+    localStorage.setItem("sendChatDirectly", String(value));
+  };
 
   return (
     <SettingsContext.Provider value={{ sendChatDirectly, setSendChatDirectly }}>
