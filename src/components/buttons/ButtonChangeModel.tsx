@@ -1,5 +1,5 @@
 import React from "react";
-import IconChange from "../../../assets/icons/change.svg";
+import IconRenew from "../../../assets/icons/renew.svg";
 import IconChecked from "../../../assets/icons/checked.svg";
 
 interface ButtonChangeModelProps {
@@ -69,7 +69,7 @@ const ButtonChangeModel: React.FC<ButtonChangeModelProps> = ({
           transition duration-300 hover:scale-120 hover:border-white
         "
       >
-        <img src={IconChange} />
+        <img src={IconRenew} />
       </button>
     </div>
   );
