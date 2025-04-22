@@ -2,6 +2,7 @@ import React from "react";
 import IconUp from "../../assets/icons/up.svg";
 import ButtonAddImage from "./buttons/ButtonAddImage";
 import ButtonChangeModel from "./buttons/ButtonChangeModel";
+import ButtonVoiceChat from "./buttons/ButtonVoiceChat";
 import ImageViewer from "./utils/ImageViewer";
 
 type Props = {
@@ -136,16 +137,19 @@ const MainTextbox: React.FC<Props> = ({
             <ButtonAddImage onImageSelected={handleImageSelected} />
             <ButtonChangeModel onModelChange={onModelChange} />
           </div>
-          <button
-            className="
+          <div className="flex gap-2">
+            <ButtonVoiceChat />
+            <button
+              className="
               rounded-[10px] border border-[rgb(60,60,60)] bg-[rgb(200,60,60)] shadow-[4px_8px_10px_rgba(0,0,0,0.2)] cursor-pointer 
               p-1 transition duration-300 
               hover:scale-120 hover:border-white hover:bg-[rgb(200,40,40)]
             "
-            onClick={handleUserInput}
-          >
-            <img src={IconUp} alt="" />
-          </button>
+              onClick={handleUserInput}
+            >
+              <img src={IconUp} alt="" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
