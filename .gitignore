@@ -25,5 +25,3 @@ dist-ssr
 
 #Environment variables
 .env
-
-yes.sh
