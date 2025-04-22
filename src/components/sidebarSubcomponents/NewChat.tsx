@@ -1,5 +1,5 @@
 import React from "react";
-import IconAdd from "../../assets/icons/add.svg";
+import IconAdd from "../../../assets/icons/add.svg";
 
 type Props = {
   isSidebarCollapsed: boolean;

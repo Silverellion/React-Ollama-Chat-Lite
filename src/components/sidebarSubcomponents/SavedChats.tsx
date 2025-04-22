@@ -1,6 +1,6 @@
 import React from "react";
-import IconEdit from "../../assets/icons/edit.svg";
-import IconDelete from "../../assets/icons/delete.svg";
+import IconEdit from "../../../assets/icons/edit.svg";
+import IconDelete from "../../../assets/icons/delete.svg";
 
 type Props = {
   isSidebarCollapsed: boolean;
