@@ -44,6 +44,21 @@ const MainTextbox: React.FC<Props> = ({
     setCurrentImages((prev) => [...prev, imageData]);
   };
 
+  const handleSpeechInput = (transcript: string) => {
+    setText((prevText) => prevText + transcript);
+    // Focus the textarea after receiving speech input
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  };
+
+  const handleDirectSpeechInput = (transcript: string) => {
+    // Send directly to chat
+    if (transcript.trim() !== "") {
+      setUserInput(transcript);
+    }
+  };
+
   const removeImage = (index: number) => {
     setCurrentImages((prev) => prev.filter((_, i) => i !== index));
   };
@@ -138,7 +153,10 @@ const MainTextbox: React.FC<Props> = ({
             <ButtonChangeModel onModelChange={onModelChange} />
           </div>
           <div className="flex gap-2">
-            <ButtonVoiceChat />
+            <ButtonVoiceChat
+              onSpeechInput={handleSpeechInput}
+              onDirectSpeechInput={handleDirectSpeechInput}
+            />
             <button
               className="
               rounded-[10px] border border-[rgb(60,60,60)] bg-[rgb(200,60,60)] shadow-[4px_8px_10px_rgba(0,0,0,0.2)] cursor-pointer 
@@ -147,7 +165,7 @@ const MainTextbox: React.FC<Props> = ({
             "
               onClick={handleUserInput}
             >
-              <img src={IconUp} alt="" />
+              <img src={IconUp} alt="Send" />
             </button>
           </div>
         </div>

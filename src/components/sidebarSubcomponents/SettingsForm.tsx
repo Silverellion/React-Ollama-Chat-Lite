@@ -40,6 +40,9 @@ const SettingsForm: React.FC<Props> = ({ isOpened, onClose }) => {
         <div
           className="bg-[rgb(15,15,15)] rounded-lg p-6 w-96 max-w-[90%] shadow-lg"
           onClick={(e) => e.stopPropagation()}
+          style={{
+            animation: "zoomIn 0.15s ease-out forwards",
+          }}
         >
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-white text-xl font-medium">Settings</h2>
