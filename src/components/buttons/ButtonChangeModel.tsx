@@ -76,26 +76,3 @@ const ButtonChangeModel: React.FC<ButtonChangeModelProps> = ({
 };
 
 export default ButtonChangeModel;
-// Updated on 2024-04-07 23:47:51
-// Updated on 2023-03-02 21:04:53
-// Updated on 2023-06-10 18:08:37
-// Updated on 2023-08-16 12:20:50
-// Updated on 2023-10-06 23:59:10
-// Updated on 2023-10-06 08:58:20
-// Updated on 2023-11-19 17:29:04
-// Updated on 2025-03-07 21:06:45
-// Updated on 2025-04-01 09:49:47
-// Updated on 2025-04-05 05:37:43
-// Updated on 2025-04-06 07:38:20
-// Updated on 2025-02-12 21:25:10
-// Updated on 2025-02-22 06:51:33
-// Updated on 2025-02-26 19:26:14
-// Updated on 2025-03-07 10:03:28
-// Updated on 2025-03-07 16:19:23
-// Updated on 2025-03-10 14:58:28
-// Updated on 2025-03-12 00:40:12
-// Updated on 2025-03-13 03:34:28
-// Updated on 2025-03-13 11:23:28
-// Updated on 2025-03-26 15:23:17
-// Updated on 2025-03-26 02:52:06
-// Updated on 2025-03-30 23:14:13

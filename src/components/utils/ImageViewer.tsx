@@ -86,34 +86,3 @@ const ImageViewer: React.FC<Props> = ({
 };
 
 export default ImageViewer;
-// Updated on 2024-02-03 13:48:41
-// Updated on 2025-03-09 18:14:14
-// Updated on 2025-03-12 18:40:41
-// Updated on 2025-03-25 18:09:31
-// Updated on 2025-03-27 09:48:27
-// Updated on 2025-04-16 00:42:41
-// Updated on 2023-03-14 14:08:17
-// Updated on 2023-04-16 02:23:33
-// Updated on 2023-05-03 10:27:29
-// Updated on 2023-05-11 02:59:57
-// Updated on 2023-06-19 22:25:06
-// Updated on 2023-07-18 15:39:38
-// Updated on 2023-08-02 10:21:39
-// Updated on 2023-09-21 12:33:48
-// Updated on 2023-11-13 04:22:24
-// Updated on 2023-11-17 18:39:37
-// Updated on 2023-12-02 00:43:32
-// Updated on 2025-02-14 21:27:00
-// Updated on 2025-02-15 21:33:17
-// Updated on 2025-02-22 16:37:33
-// Updated on 2025-03-24 06:05:11
-// Updated on 2025-04-01 15:39:14
-// Updated on 2025-02-06 23:27:55
-// Updated on 2025-03-01 06:27:19
-// Updated on 2025-03-08 01:28:36
-// Updated on 2025-03-10 20:59:27
-// Updated on 2025-03-12 12:25:24
-// Updated on 2025-03-13 22:49:48
-// Updated on 2025-03-26 23:35:27
-// Updated on 2025-03-30 23:47:40
-// Updated on 2025-04-18 00:18:28

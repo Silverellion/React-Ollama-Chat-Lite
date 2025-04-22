@@ -155,28 +155,3 @@ const ChatBubbles: React.FC<Props> = ({
 };
 
 export default ChatBubbles;
-// Updated on 2024-01-18 08:37:49
-// Updated on 2025-04-04 04:52:46
-// Updated on 2025-04-09 13:11:39
-// Updated on 2023-04-28 01:34:48
-// Updated on 2023-08-16 13:50:00
-// Updated on 2023-09-18 07:34:23
-// Updated on 2025-02-14 11:01:13
-// Updated on 2025-02-17 05:32:09
-// Updated on 2025-02-23 17:03:36
-// Updated on 2025-02-24 15:55:11
-// Updated on 2025-02-26 21:42:42
-// Updated on 2025-03-05 09:48:39
-// Updated on 2025-03-07 13:31:57
-// Updated on 2025-03-10 13:43:52
-// Updated on 2025-04-02 10:49:33
-// Updated on 2025-02-28 19:21:06
-// Updated on 2025-02-28 18:40:09
-// Updated on 2025-03-01 10:43:05
-// Updated on 2025-03-07 05:30:36
-// Updated on 2025-03-08 19:06:34
-// Updated on 2025-03-13 08:46:39
-// Updated on 2025-03-30 08:10:03
-// Updated on 2025-03-31 10:38:50
-// Updated on 2025-04-06 22:06:19
-// Updated on 2025-04-13 20:46:38

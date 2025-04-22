@@ -24,37 +24,3 @@ export default async function OllamaResponse(
     imageData
   );
 }
-// Updated on 2025-03-07 12:16:18
-// Updated on 2025-04-05 19:57:32
-// Updated on 2025-04-07 01:00:17
-// Updated on 2025-04-18 05:40:00
-// Updated on 2023-04-02 22:23:28
-// Updated on 2023-04-26 18:00:25
-// Updated on 2023-04-26 06:12:32
-// Updated on 2023-06-09 16:04:50
-// Updated on 2023-06-25 05:10:31
-// Updated on 2023-08-08 00:16:00
-// Updated on 2023-08-16 01:45:06
-// Updated on 2025-02-11 15:01:23
-// Updated on 2025-02-18 20:09:15
-// Updated on 2025-02-26 11:36:47
-// Updated on 2025-02-27 04:30:11
-// Updated on 2025-03-08 14:17:35
-// Updated on 2025-03-12 12:59:36
-// Updated on 2025-03-24 18:00:38
-// Updated on 2025-04-02 06:12:26
-// Updated on 2025-04-04 14:44:37
-// Updated on 2025-04-09 02:14:31
-// Updated on 2025-02-12 09:19:56
-// Updated on 2025-02-14 16:08:39
-// Updated on 2025-02-18 09:23:45
-// Updated on 2025-02-18 12:55:28
-// Updated on 2025-02-28 15:28:21
-// Updated on 2025-02-28 12:28:19
-// Updated on 2025-03-12 06:32:36
-// Updated on 2025-03-13 07:29:43
-// Updated on 2025-03-13 09:47:15
-// Updated on 2025-03-20 20:13:54
-// Updated on 2025-03-31 15:47:41
-// Updated on 2025-04-06 06:30:35
-// Updated on 2025-04-13 10:22:33
