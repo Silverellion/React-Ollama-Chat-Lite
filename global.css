@@ -10,11 +10,6 @@
 }
 
 @font-face {
-  font-family: "ShadowsIntoLight";
-  src: url("./assets/fonts/ShadowsIntoLight-Regular.ttf");
-}
-
-@font-face {
   font-family: "GGSansRegular";
   src: url("./assets/fonts/GGSansRegular.ttf");
 }
