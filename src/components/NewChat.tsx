@@ -46,30 +46,3 @@ const NewChat: React.FC<Props> = ({ isSidebarCollapsed, onNewChat }) => {
 };
 
 export default NewChat;
-// Updated on 2023-08-11 04:45:57
-// Updated on 2023-08-27 12:31:06
-// Updated on 2023-08-03 04:31:19
-// Updated on 2023-09-18 17:26:35
-// Updated on 2023-09-25 11:29:43
-// Updated on 2023-10-10 11:14:17
-// Updated on 2025-04-03 01:03:37
-// Updated on 2025-04-03 09:43:07
-// Updated on 2025-04-03 16:58:32
-// Updated on 2025-04-09 17:08:05
-// Updated on 2025-02-18 13:50:58
-// Updated on 2025-02-18 21:23:20
-// Updated on 2025-02-18 07:10:34
-// Updated on 2025-02-18 02:39:43
-// Updated on 2025-02-22 15:37:49
-// Updated on 2025-02-22 12:59:28
-// Updated on 2025-02-26 10:29:18
-// Updated on 2025-02-26 02:09:01
-// Updated on 2025-03-01 09:09:07
-// Updated on 2025-03-01 10:23:49
-// Updated on 2025-03-10 14:56:00
-// Updated on 2025-03-10 02:58:34
-// Updated on 2025-03-10 23:59:13
-// Updated on 2025-03-20 10:30:23
-// Updated on 2025-03-30 15:11:15
-// Updated on 2025-03-31 18:06:46
-// Updated on 2025-03-31 15:16:25

@@ -76,32 +76,3 @@ const Sidebar: React.FC<SidebarProps> = ({
 };
 
 export default Sidebar;
-// Updated on 2024-06-26 23:43:25
-// Updated on 2025-03-20 04:59:01
-// Updated on 2023-06-19 16:36:08
-// Updated on 2023-09-18 05:20:38
-// Updated on 2023-09-21 06:07:41
-// Updated on 2023-11-28 22:53:51
-// Updated on 2023-12-04 08:54:25
-// Updated on 2025-02-24 11:31:38
-// Updated on 2025-03-07 20:21:25
-// Updated on 2025-03-08 16:50:22
-// Updated on 2025-03-10 14:52:43
-// Updated on 2025-03-10 10:26:31
-// Updated on 2025-03-23 11:08:02
-// Updated on 2025-03-30 02:45:41
-// Updated on 2025-04-02 00:10:38
-// Updated on 2025-04-03 13:28:11
-// Updated on 2025-04-04 01:21:11
-// Updated on 2025-02-14 15:48:35
-// Updated on 2025-02-18 13:58:34
-// Updated on 2025-02-18 10:36:52
-// Updated on 2025-02-26 21:53:19
-// Updated on 2025-03-01 04:58:52
-// Updated on 2025-03-30 08:04:58
-// Updated on 2025-03-30 09:03:43
-// Updated on 2025-03-31 04:28:25
-// Updated on 2025-04-07 08:30:45
-// Updated on 2025-04-07 03:15:04
-// Updated on 2025-04-13 05:57:48
-// Updated on 2025-04-13 15:25:48
