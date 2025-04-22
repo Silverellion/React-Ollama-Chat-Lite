@@ -6,6 +6,7 @@ const GreetingMessage: React.FC = () => {
     "I wanna Special Summon Kitkallos and mill 5.",
     "I wanna unblock the block and commit legocity 🤑",
     "Let's play Among Us in real life!",
+    "First we mein, then we kampf, LET'S MEIN KAMPF!",
     "I've forgotten my last year self already :(",
     "I wish to be innocent again.",
     "I want to regain what I've forgotten.",
@@ -14,6 +15,7 @@ const GreetingMessage: React.FC = () => {
     "Will the lord ever forgive me for what I did?",
     "I am a terrible person.",
     "I don't want to change.",
+    "I didn't know how good I had it",
   ];
 
   const messageRef = React.useRef<string>("");
