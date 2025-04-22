@@ -47,7 +47,8 @@ const SettingsForm: React.FC<Props> = ({ isOpened, onClose }) => {
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-white text-xl font-medium">Settings</h2>
             <button
-              className="text-gray-400 hover:text-white text-xl cursor-pointer"
+              className="text-gray-400 text-xl cursor-pointer transition-all duration-100 ease-in
+              hover:text-white hover:scale-120"
               onClick={onClose}
             >
               ✕
