@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./ImageViewer.css";
 
 type Props = {
   images: string | string[];
@@ -64,7 +63,7 @@ const ImageViewer: React.FC<Props> = ({
 
       {zoomedImage && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center cursor-pointer"
+          className="fixed inset-0 z-50 flex items-center justify-center"
           style={{
             backgroundColor: "rgba(0, 0, 0, 0.2)",
             backdropFilter: "blur(3px)",

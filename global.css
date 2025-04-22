@@ -52,3 +52,14 @@ body {
   height: 100%;
   pointer-events: none;
 }
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

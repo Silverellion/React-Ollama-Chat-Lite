@@ -1,7 +1,7 @@
 import React from "react";
 import SavedChat from "./sidebarSubcomponents/SavedChats";
 import NewChat from "./sidebarSubcomponents/NewChat";
-import Settings from "./sidebarSubcomponents/Settings";
+import SettingsButton from "./sidebarSubcomponents/SettingsButton";
 
 type SidebarProps = {
   isCollapsed: boolean;
@@ -70,7 +70,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         )}
         {!isCollapsed && (
           <div className="mt-2 mx0 px-5 flex flex-col items-center overflow-y-auto h-[calc(20vh)]">
-            <Settings isSidebarCollapsed={isCollapsed} />
+            <SettingsButton isSidebarCollapsed={isCollapsed} />
           </div>
         )}
       </div>
