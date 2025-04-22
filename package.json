@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@langchain/core": "^0.3.43",
     "@tailwindcss/vite": "^4.0.17",
     "dompurify": "^3.2.5",
     "highlight.js": "^11.11.1",
