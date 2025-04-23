@@ -5,19 +5,36 @@ type Props = {
   onClose: () => void;
 };
 
+type Language = {
+  code: string;
+  name: string;
+};
+
 // Create context for sharing settings across the app
 export const SettingsContext = React.createContext<{
   sendChatDirectly: boolean;
   setSendChatDirectly: (value: boolean) => void;
+  language: string;
+  setLanguage: (value: string) => void;
 }>({
   sendChatDirectly: false,
   setSendChatDirectly: () => {},
+  language: "en-US",
+  setLanguage: () => {},
 });
 
 const SettingsForm: React.FC<Props> = ({ isOpened, onClose }) => {
   // Use the actual context to read and update values
-  const { sendChatDirectly, setSendChatDirectly } =
+  const { sendChatDirectly, setSendChatDirectly, language, setLanguage } =
     React.useContext(SettingsContext);
+
+  // Available languages
+  const languages: Language[] = [
+    { code: "en-US", name: "English" },
+    { code: "ja-JP", name: "Japanese" },
+    { code: "de-DE", name: "German" },
+    { code: "fr-FR", name: "French" },
+  ];
 
   // Close on escape key
   React.useEffect(() => {
@@ -78,12 +95,29 @@ const SettingsForm: React.FC<Props> = ({ isOpened, onClose }) => {
               </div>
             </div>
 
-            <div className="text-gray-400 text-sm">
+            <div className="text-gray-400 text-sm mb-4">
               When enabled, voice chat will send your speech directly to the AI
               without showing in the text box first.
             </div>
 
-            {/* Add more settings later */}
+            {/* Language selection dropdown */}
+            <div className="flex flex-col space-y-2">
+              <label className="text-white">Speech recognition language</label>
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+                className="bg-[rgb(30,30,30)] text-white p-2 rounded-md border border-[rgb(60,60,60)] focus:outline-none focus:border-[rgb(200,60,60)]"
+              >
+                {languages.map((lang) => (
+                  <option key={lang.code} value={lang.code}>
+                    {lang.name}
+                  </option>
+                ))}
+              </select>
+              <div className="text-gray-400 text-sm">
+                Choose the language for voice recognition.
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -97,20 +131,31 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   // Initialize from localStorage if available
-  const storedValue = localStorage.getItem("sendChatDirectly");
-  const initialState = storedValue === "true";
+  const storedDirectly = localStorage.getItem("sendChatDirectly");
+  const initialDirectly = storedDirectly === "true";
+
+  const storedLanguage = localStorage.getItem("recognitionLanguage");
+  const initialLanguage = storedLanguage || "en-US";
 
   const [sendChatDirectly, setSendChatDirectlyState] =
-    React.useState(initialState);
+    React.useState(initialDirectly);
+  const [language, setLanguageState] = React.useState(initialLanguage);
 
-  // Wrapper to persist the setting
+  // Wrapper to persist the settings
   const setSendChatDirectly = (value: boolean) => {
     setSendChatDirectlyState(value);
     localStorage.setItem("sendChatDirectly", String(value));
   };
 
+  const setLanguage = (value: string) => {
+    setLanguageState(value);
+    localStorage.setItem("recognitionLanguage", value);
+  };
+
   return (
-    <SettingsContext.Provider value={{ sendChatDirectly, setSendChatDirectly }}>
+    <SettingsContext.Provider
+      value={{ sendChatDirectly, setSendChatDirectly, language, setLanguage }}
+    >
       {children}
     </SettingsContext.Provider>
   );

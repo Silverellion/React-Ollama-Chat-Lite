@@ -13,7 +13,7 @@ const ButtonVoiceChat: React.FC<Props> = ({
   onDirectSpeechInput,
 }) => {
   const [isListening, setIsListening] = useState(false);
-  const { sendChatDirectly } = useContext(SettingsContext);
+  const { sendChatDirectly, language } = useContext(SettingsContext);
 
   const toggleListening = () => {
     if (!isListening) {
@@ -43,7 +43,7 @@ const ButtonVoiceChat: React.FC<Props> = ({
 
     recognition.continuous = false;
     recognition.interimResults = false;
-    recognition.lang = "en-US"; // This should be moved to settings later.
+    recognition.lang = language; // Use language from settings
 
     recognition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript;
