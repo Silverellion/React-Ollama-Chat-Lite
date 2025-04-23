@@ -1,13 +1,10 @@
 import React from "react";
+import DirectChatToggle from "./DirectChatToggle";
+import LanguageSelector from "./LanguageSelector";
 
 type Props = {
   isOpened: boolean;
   onClose: () => void;
-};
-
-type Language = {
-  code: string;
-  name: string;
 };
 
 // Create context for sharing settings across the app
@@ -24,18 +21,6 @@ export const SettingsContext = React.createContext<{
 });
 
 const SettingsForm: React.FC<Props> = ({ isOpened, onClose }) => {
-  // Use the actual context to read and update values
-  const { sendChatDirectly, setSendChatDirectly, language, setLanguage } =
-    React.useContext(SettingsContext);
-
-  // Available languages
-  const languages: Language[] = [
-    { code: "en-US", name: "English" },
-    { code: "ja-JP", name: "Japanese" },
-    { code: "de-DE", name: "German" },
-    { code: "fr-FR", name: "French" },
-  ];
-
   // Close on escape key
   React.useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -74,50 +59,9 @@ const SettingsForm: React.FC<Props> = ({ isOpened, onClose }) => {
             </button>
           </div>
 
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <label className="text-white">Send chat directly</label>
-              <div
-                className={`w-12 h-6 rounded-full relative cursor-pointer transition-colors duration-300 ${
-                  sendChatDirectly
-                    ? "bg-[rgb(200,60,60)]"
-                    : "bg-[rgb(60,60,60)]"
-                }`}
-                onClick={() => setSendChatDirectly(!sendChatDirectly)}
-              >
-                <div
-                  className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform duration-300 ${
-                    sendChatDirectly
-                      ? "transform translate-x-6.5"
-                      : "translate-x-0.5"
-                  }`}
-                ></div>
-              </div>
-            </div>
-
-            <div className="text-gray-400 text-sm mb-4">
-              When enabled, voice chat will send your speech directly to the AI
-              without showing in the text box first.
-            </div>
-
-            {/* Language selection dropdown */}
-            <div className="flex flex-col space-y-2">
-              <label className="text-white">Speech recognition language</label>
-              <select
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                className="bg-[rgb(30,30,30)] text-white p-2 rounded-md border border-[rgb(60,60,60)] focus:outline-none focus:border-[rgb(200,60,60)]"
-              >
-                {languages.map((lang) => (
-                  <option key={lang.code} value={lang.code}>
-                    {lang.name}
-                  </option>
-                ))}
-              </select>
-              <div className="text-gray-400 text-sm">
-                Choose the language for voice recognition.
-              </div>
-            </div>
+          <div className="space-y-6">
+            <DirectChatToggle />
+            <LanguageSelector />
           </div>
         </div>
       </div>

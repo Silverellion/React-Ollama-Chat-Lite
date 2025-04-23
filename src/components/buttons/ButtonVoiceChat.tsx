@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import IconMic from "../../../assets/icons/mic-off.svg";
 import IconMicActive from "../../../assets/icons/mic-active.svg";
-import { SettingsContext } from "../sidebarSubcomponents/SettingsForm";
+import { SettingsContext } from "../settings/SettingsForm";
 
 type Props = {
   onSpeechInput: (text: string) => void;

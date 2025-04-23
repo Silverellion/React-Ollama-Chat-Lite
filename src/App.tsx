@@ -5,7 +5,7 @@ import Sidebar from "./components/Sidebar";
 import ChatBubbles from "./components/ChatBubbles";
 import GreetingMessage from "./components/GreetingMessage";
 import MainTextbox from "./components/MainTextbox";
-import { SettingsProvider } from "./components/sidebarSubcomponents/SettingsForm";
+import { SettingsProvider } from "./components/settings/SettingsForm";
 
 function App() {
   const chatManager = ChatManager.getInstance();
