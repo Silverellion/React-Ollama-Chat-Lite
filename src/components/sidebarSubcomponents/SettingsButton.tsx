@@ -1,6 +1,6 @@
 import React from "react";
 import IconSettings from "../../../assets/icons/settings.svg";
-import SettingsForm from "./SettingsForm";
+import SettingsForm from "../settings/SettingsForm";
 
 type Props = {
   isSidebarCollapsed: boolean;

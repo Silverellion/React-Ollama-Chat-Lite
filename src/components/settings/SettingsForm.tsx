@@ -1,4 +1,6 @@
 import React from "react";
+import DirectChatToggle from "./DirectChatToggle";
+import LanguageSelector from "./LanguageSelector";
 
 type Props = {
   isOpened: boolean;
@@ -9,16 +11,16 @@ type Props = {
 export const SettingsContext = React.createContext<{
   sendChatDirectly: boolean;
   setSendChatDirectly: (value: boolean) => void;
+  language: string;
+  setLanguage: (value: string) => void;
 }>({
   sendChatDirectly: false,
   setSendChatDirectly: () => {},
+  language: "en-US",
+  setLanguage: () => {},
 });
 
 const SettingsForm: React.FC<Props> = ({ isOpened, onClose }) => {
-  // Use the actual context to read and update values
-  const { sendChatDirectly, setSendChatDirectly } =
-    React.useContext(SettingsContext);
-
   // Close on escape key
   React.useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -57,33 +59,9 @@ const SettingsForm: React.FC<Props> = ({ isOpened, onClose }) => {
             </button>
           </div>
 
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <label className="text-white">Send chat directly</label>
-              <div
-                className={`w-12 h-6 rounded-full relative cursor-pointer transition-colors duration-300 ${
-                  sendChatDirectly
-                    ? "bg-[rgb(200,60,60)]"
-                    : "bg-[rgb(60,60,60)]"
-                }`}
-                onClick={() => setSendChatDirectly(!sendChatDirectly)}
-              >
-                <div
-                  className={`w-5 h-5 bg-white rounded-full absolute top-0.5 transition-transform duration-300 ${
-                    sendChatDirectly
-                      ? "transform translate-x-6.5"
-                      : "translate-x-0.5"
-                  }`}
-                ></div>
-              </div>
-            </div>
-
-            <div className="text-gray-400 text-sm">
-              When enabled, voice chat will send your speech directly to the AI
-              without showing in the text box first.
-            </div>
-
-            {/* Add more settings later */}
+          <div className="space-y-6">
+            <DirectChatToggle />
+            <LanguageSelector />
           </div>
         </div>
       </div>
@@ -97,20 +75,31 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   // Initialize from localStorage if available
-  const storedValue = localStorage.getItem("sendChatDirectly");
-  const initialState = storedValue === "true";
+  const storedDirectly = localStorage.getItem("sendChatDirectly");
+  const initialDirectly = storedDirectly === "true";
+
+  const storedLanguage = localStorage.getItem("recognitionLanguage");
+  const initialLanguage = storedLanguage || "en-US";
 
   const [sendChatDirectly, setSendChatDirectlyState] =
-    React.useState(initialState);
+    React.useState(initialDirectly);
+  const [language, setLanguageState] = React.useState(initialLanguage);
 
-  // Wrapper to persist the setting
+  // Wrapper to persist the settings
   const setSendChatDirectly = (value: boolean) => {
     setSendChatDirectlyState(value);
     localStorage.setItem("sendChatDirectly", String(value));
   };
 
+  const setLanguage = (value: string) => {
+    setLanguageState(value);
+    localStorage.setItem("recognitionLanguage", value);
+  };
+
   return (
-    <SettingsContext.Provider value={{ sendChatDirectly, setSendChatDirectly }}>
+    <SettingsContext.Provider
+      value={{ sendChatDirectly, setSendChatDirectly, language, setLanguage }}
+    >
       {children}
     </SettingsContext.Provider>
   );
