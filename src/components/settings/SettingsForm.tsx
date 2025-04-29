@@ -1,23 +1,27 @@
 import React from "react";
 import DirectChatToggle from "./DirectChatToggle";
 import LanguageSelector from "./LanguageSelector";
+import TTSToggle from "./TTSToggle";
 
 type Props = {
   isOpened: boolean;
   onClose: () => void;
 };
 
-// Create context for sharing settings across the app
 export const SettingsContext = React.createContext<{
   sendChatDirectly: boolean;
   setSendChatDirectly: (value: boolean) => void;
   language: string;
   setLanguage: (value: string) => void;
+  ttsSpeechEnabled: boolean;
+  setTTSSpeechEnabled: (value: boolean) => void;
 }>({
   sendChatDirectly: false,
   setSendChatDirectly: () => {},
   language: "en-US",
   setLanguage: () => {},
+  ttsSpeechEnabled: false,
+  setTTSSpeechEnabled: () => {},
 });
 
 const SettingsForm: React.FC<Props> = ({ isOpened, onClose }) => {
@@ -61,6 +65,7 @@ const SettingsForm: React.FC<Props> = ({ isOpened, onClose }) => {
 
           <div className="space-y-6">
             <DirectChatToggle />
+            <TTSToggle />
             <LanguageSelector />
           </div>
         </div>
@@ -81,9 +86,14 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   const storedLanguage = localStorage.getItem("recognitionLanguage");
   const initialLanguage = storedLanguage || "en-US";
 
+  const storedTTSEnabled = localStorage.getItem("ttsSpeechEnabled");
+  const initialTTSEnabled = storedTTSEnabled === "true";
+
   const [sendChatDirectly, setSendChatDirectlyState] =
     React.useState(initialDirectly);
   const [language, setLanguageState] = React.useState(initialLanguage);
+  const [ttsSpeechEnabled, setTTSSpeechEnabledState] =
+    React.useState(initialTTSEnabled);
 
   // Wrapper to persist the settings
   const setSendChatDirectly = (value: boolean) => {
@@ -96,9 +106,21 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
     localStorage.setItem("recognitionLanguage", value);
   };
 
+  const setTTSSpeechEnabled = (value: boolean) => {
+    setTTSSpeechEnabledState(value);
+    localStorage.setItem("ttsSpeechEnabled", String(value));
+  };
+
   return (
     <SettingsContext.Provider
-      value={{ sendChatDirectly, setSendChatDirectly, language, setLanguage }}
+      value={{
+        sendChatDirectly,
+        setSendChatDirectly,
+        language,
+        setLanguage,
+        ttsSpeechEnabled,
+        setTTSSpeechEnabled,
+      }}
     >
       {children}
     </SettingsContext.Provider>
