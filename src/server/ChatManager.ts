@@ -1,4 +1,4 @@
-import { OllamaMemoryManager } from "./Ollama/OllamaMemoryManager";
+import { OllamaMemoryManager } from "./ollama/OllamaMemoryManager";
 
 export type SavedChat = {
   id: string;
