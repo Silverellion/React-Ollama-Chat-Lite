@@ -1,30 +1,25 @@
-import { Router } from "express";
+import express, { Request, Response } from "express";
 import { spawn } from "child_process";
 import path from "path";
 import fs from "fs";
 import { detectLanguage } from "../utils/languageDetection";
 
-const router = Router();
+const router = express.Router();
 
-// Handle TTS requests
-router.post("/", async (req, res) => {
+router.post("/", async (req: Request, res: Response): Promise<any> => {
   try {
     const { text, language = "auto" } = req.body;
-
     if (!text) {
       return res.status(400).json({ error: "Text is required" });
     }
 
-    // Use language detection if 'auto' is specified
     let lang = language;
     if (language === "auto") {
       lang = detectLanguage(text);
     }
 
-    // Path to Python script - adjust for Windows paths
-    const scriptPath = path.join(__dirname, "..", "coquiTTS", "main.py");
+    const scriptPath = path.join(__dirname, "..", "..", "coquiTTS", "main.py");
 
-    // Make sure Python script exists
     if (!fs.existsSync(scriptPath)) {
       console.error("TTS script not found at:", scriptPath);
       return res
@@ -32,19 +27,17 @@ router.post("/", async (req, res) => {
         .json({ error: "TTS service not configured properly" });
     }
 
-    // Log the command we're about to run
     console.log(
       `Generating TTS for text (${lang}): ${text.substring(0, 50)}${
         text.length > 50 ? "..." : ""
       }`
     );
 
-    // Run the Python script with Windows compatibility
     const pythonProcess = spawn(
       "python",
       [scriptPath, "--text", text, "--lang", lang, "--json"],
       {
-        windowsHide: true, // Hide the command window on Windows
+        windowsHide: true,
       }
     );
 
@@ -68,9 +61,7 @@ router.post("/", async (req, res) => {
       }
 
       try {
-        // Parse the output
         const output = JSON.parse(result);
-
         if (!output.success) {
           console.error("TTS generation failed:", output.error);
           return res
@@ -78,10 +69,8 @@ router.post("/", async (req, res) => {
             .json({ error: output.error || "Unknown error" });
         }
 
-        // Send the file
         const filePath = output.file_path;
         console.log(`Sending TTS file: ${filePath}`);
-
         res.sendFile(filePath, {}, (err) => {
           if (err) {
             console.error("Error sending TTS file:", err);
