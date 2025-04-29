@@ -24,11 +24,6 @@ export default defineConfig(({ mode }) => {
           rewrite: () => "/api/chat",
           configure: configureLogging,
         },
-        "/api/tts": {
-          target: "http://localhost:3000",
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api\/tts/, "/api/tts"),
-        },
       },
     },
   };
