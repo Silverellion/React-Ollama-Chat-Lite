@@ -30,8 +30,13 @@ export class TTSService {
 
     try {
       this.isPlaying = true;
+      const apiUrl =
+        typeof window !== "undefined" &&
+        window.location.hostname !== "localhost"
+          ? `${window.location.origin}/api/tts` // When deployed with Cloudflare
+          : "http://localhost:3000/api/tts"; // For local development
 
-      const response = await fetch("/api/tts", {
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,14 +64,20 @@ export class TTSService {
       audioSource = audioContext.createBufferSource();
       audioSource.buffer = audioBuffer;
       audioSource.connect(audioContext.destination);
-      audioSource.start(0);
+
+      // Play the audio and set up event listeners
+      audioSource.start();
+
       audioSource.onended = () => {
         this.isPlaying = false;
         audioSource = null;
       };
-    } catch (error) {
-    } finally {
-      this.abortController = null;
+    } catch (error: any) {
+      if (error.name !== "AbortError") {
+        console.error("TTS error:", error);
+        // fall back to browser's speech synthesis here
+      }
+      this.isPlaying = false;
     }
   }
 
@@ -84,9 +95,6 @@ export class TTSService {
       }
       audioSource = null;
     }
-
-    // Clear browser speech synthesis queue too (fallback)
-    window.speechSynthesis.cancel();
 
     this.isPlaying = false;
   }
