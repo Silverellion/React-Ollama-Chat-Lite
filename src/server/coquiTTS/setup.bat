@@ -5,6 +5,8 @@ REM Check Python installation
 where python >nul 2>&1
 if %errorlevel% neq 0 (
   echo Python not found! Please install Python 3.7+ and add it to PATH.
+  echo Press any key to continue...
+  pause > nul
   exit /b 1
 )
 
@@ -17,6 +19,8 @@ echo Installing Python requirements...
 pip install -r requirements.txt
 if %errorlevel% neq 0 (
   echo Failed to install requirements.
+  echo Press any key to continue...
+  pause > nul
   exit /b 1
 )
 
@@ -26,3 +30,6 @@ echo To test the TTS functionality, run:
 echo   python main.py --text "This is a test of the text to speech system." --lang en
 echo.
 echo You can add cleanup.bat to Windows Task Scheduler to run every hour.
+echo.
+echo Press any key to exit...
+pause > nul
