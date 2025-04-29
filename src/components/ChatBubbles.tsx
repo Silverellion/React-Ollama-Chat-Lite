@@ -1,5 +1,5 @@
 import React from "react";
-import OllamaResponse from "../server/Ollama/OllamaService";
+import OllamaResponse from "../server/ollama/OllamaService";
 import CodeblockConverter from "./utils/CodeblockConverter";
 import { ChatMessage } from "../server/ChatManager";
 import LoadingAnimation from "./utils/LoadingAnimation";

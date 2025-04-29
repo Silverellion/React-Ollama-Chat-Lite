@@ -1,13 +1,33 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { ChatMessage } from "../server/ChatManager";
 import CodeblockConverter from "./utils/CodeblockConverter";
 import ImageViewer from "./utils/ImageViewer";
+import { SettingsContext } from "./settings/SettingsForm";
+import { TTSService } from "./tts/TTSService";
 
 type MessageBubbleProps = {
   message: ChatMessage;
 };
 
 const ChatBubble: React.FC<MessageBubbleProps> = ({ message }) => {
+  const { ttsSpeechEnabled } = useContext(SettingsContext);
+
+  useEffect(() => {
+    // Only speak non-user messages when TTS is enabled
+    if (!message.isUser && ttsSpeechEnabled && message.text?.trim()) {
+      const ttsService = TTSService.getInstance();
+      ttsService.speak(message.text);
+    }
+
+    // When ttsSpeechEnabled changes to false, stop any ongoing speech
+    return () => {
+      if (!ttsSpeechEnabled) {
+        const ttsService = TTSService.getInstance();
+        ttsService.stop();
+      }
+    };
+  }, [message, ttsSpeechEnabled]);
+
   return (
     <div className={`flex ${message.isUser ? "justify-end" : "justify-start"}`}>
       <div
