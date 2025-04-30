@@ -25,5 +25,6 @@ dist-ssr
 
 #Environment variables
 .env
-#coquiTTS outputs
+#python-related shits
+src/server/coquiTTS/__pycache__
 src/server/coquiTTS/output/
