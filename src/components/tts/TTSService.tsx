@@ -1,6 +1,9 @@
 export class TTSService {
   private static instance: TTSService;
   private audio: HTMLAudioElement | null = null;
+  private lastRequestText: string = "";
+  private lastRequestTime: number = 0;
+  private requestInProgress: boolean = false;
 
   static getInstance(): TTSService {
     if (!TTSService.instance) {
@@ -10,6 +13,20 @@ export class TTSService {
   }
 
   async speak(text: string, language: string = "en") {
+    // Don't make duplicate requests within 2 seconds
+    const now = Date.now();
+    if (
+      this.requestInProgress ||
+      (text === this.lastRequestText && now - this.lastRequestTime < 2000)
+    ) {
+      console.log("Skipping duplicate TTS request");
+      return;
+    }
+
+    this.lastRequestText = text;
+    this.lastRequestTime = now;
+    this.requestInProgress = true;
+
     const apiUrl =
       typeof window !== "undefined" && window.location.hostname !== "localhost"
         ? `${window.location.origin}/api/tts`
@@ -37,6 +54,8 @@ export class TTSService {
       this.audio.play();
     } catch (error) {
       console.error("TTS error:", error);
+    } finally {
+      this.requestInProgress = false;
     }
   }
 

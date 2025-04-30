@@ -26,4 +26,4 @@ dist-ssr
 #Environment variables
 .env
 #coquiTTS outputs
-src\server\coquiTTS\output
+src/server/coquiTTS/output/

@@ -1,6 +1,8 @@
 import logging
 import time
 import re
+import os
+import threading
 from pathlib import Path
 from TTS.api import TTS
 
@@ -14,37 +16,56 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 AVAILABLE_MODELS = {
     "en": {
         "tts_model": "tts_models/en/vctk/vits",
-        "speaker": "p225",  
+        "speaker": "p226",  
     },
     "de": {
         "tts_model": "tts_models/de/thorsten/vits",
         "speaker": "thorsten", 
     },
     "ja": {
-        "tts_model": "tts_models/ja/kokoro/vits",
+        "tts_model": "tts_models/ja/kokoro/vits", 
         "speaker": "kokoro", 
     }
 }
 
-def clean_text(text):
-    text = text.replace("’", "'").replace("“", '"').replace("”", '"')
-    text = re.sub(r'[^\x00-\x7F]+', '', text)
-    return text
+_tts_instances = {}
+_tts_lock = threading.Lock()
+_last_request = {"text": "", "timestamp": 0}
+_cooldown = 2  # seconds
 
 def generate_speech(text, lang="en", output_path=None):
+    global _last_request
+    
     try:
-        text = clean_text(text)
-        if not text.strip() or len(text.strip()) < 3:
-            raise ValueError("Text too short or unsupported for TTS.")
-        model_info = AVAILABLE_MODELS.get(lang, AVAILABLE_MODELS["en"])
-        tts_model = model_info["tts_model"]
-        speaker = model_info.get("speaker")
-        tts = TTS(tts_model)
-        if output_path is None:
-            output_path = OUTPUT_DIR / f"tts_{int(time.time())}.wav"
-        # Increase speed for faster speech
-        tts.tts_to_file(text=text, speaker=speaker, speed=1.5, file_path=str(output_path))
-        return str(output_path)
+        current_time = time.time()
+        
+        with _tts_lock:
+            _last_request["text"] = text
+            _last_request["timestamp"] = current_time
+            
+            if lang not in AVAILABLE_MODELS:
+                lang = "en" 
+                
+            logger.info(f"TTS input after cleaning: '{text}'")
+            
+            if not text.strip() or len(text.strip()) < 3:
+                raise ValueError("Text too short or unsupported for TTS.")
+                
+            model_info = AVAILABLE_MODELS[lang]
+            tts_model = model_info["tts_model"]
+            speaker = model_info.get("speaker")
+            
+            if tts_model not in _tts_instances:
+                _tts_instances[tts_model] = TTS(tts_model)
+            tts = _tts_instances[tts_model]
+            
+            # Generate a unique output file path if none provided
+            if output_path is None:
+                output_path = OUTPUT_DIR / f"tts_{int(time.time())}.wav"
+            
+            tts.tts_to_file(text=text, speaker=speaker, speed=1.5, file_path=str(output_path))
+            
+            return str(output_path)
     except Exception as e:
         logger.error(f"Error generating speech: {e}")
         raise

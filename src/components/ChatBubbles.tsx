@@ -29,28 +29,24 @@ const ChatBubbles: React.FC<Props> = ({
   } | null>(null);
   const processedMessagesRef = React.useRef<Set<string>>(new Set());
 
+  // Deduplicate messages, preserving intentional repeats
   const deduplicatedMessages = React.useMemo(() => {
     const messagesWithPositions: ChatMessage[] = [];
     const messagePositions = new Map<string, number[]>();
 
-    // First pass: collect position information for each message
     messages.forEach((msg, index) => {
       const msgKey = `${msg.text}-${msg.isUser}-${
         msg.image ? JSON.stringify(msg.image) : ""
       }`;
-
-      // Store the position of this message
       const positions = messagePositions.get(msgKey) || [];
       positions.push(index);
       messagePositions.set(msgKey, positions);
     });
 
-    // Second pass: identify duplicates and preserve intentional repeats
     messages.forEach((msg, index) => {
       const msgKey = `${msg.text}-${msg.isUser}-${
         msg.image ? JSON.stringify(msg.image) : ""
       }`;
-
       const positions = messagePositions.get(msgKey) || [];
       if (
         positions[0] === index ||
@@ -75,7 +71,6 @@ const ChatBubbles: React.FC<Props> = ({
     setStreamingResponse("");
 
     try {
-      // Check if the model doesn't support images but image data was provided
       if (imageData && !supportsImages) {
         setTimeout(() => {
           onAIResponse("This model doesn't support image input.");
