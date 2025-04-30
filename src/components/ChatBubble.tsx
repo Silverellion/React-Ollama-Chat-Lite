@@ -1,39 +1,14 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { ChatMessage } from "../server/ChatManager";
 import CodeblockConverter from "./utils/CodeblockConverter";
 import ImageViewer from "./utils/ImageViewer";
-import { SettingsContext } from "./settings/SettingsForm";
-import { TTSService } from "./tts/TTSService";
 
 type MessageBubbleProps = {
   message: ChatMessage;
   isLatestAI?: boolean;
 };
 
-const ChatBubble: React.FC<MessageBubbleProps> = ({ message, isLatestAI }) => {
-  const { ttsSpeechEnabled } = useContext(SettingsContext);
-
-  useEffect(() => {
-    // Only speak the latest non-user message when TTS is enabled
-    if (
-      isLatestAI &&
-      !message.isUser &&
-      ttsSpeechEnabled &&
-      message.text?.trim()
-    ) {
-      const ttsService = TTSService.getInstance();
-      ttsService.speak(message.text);
-    }
-
-    // When ttsSpeechEnabled changes to false, stop any ongoing speech
-    return () => {
-      if (!ttsSpeechEnabled) {
-        const ttsService = TTSService.getInstance();
-        ttsService.stop();
-      }
-    };
-  }, [message, ttsSpeechEnabled, isLatestAI]);
-
+const ChatBubble: React.FC<MessageBubbleProps> = ({ message }) => {
   return (
     <div className={`flex ${message.isUser ? "justify-end" : "justify-start"}`}>
       <div

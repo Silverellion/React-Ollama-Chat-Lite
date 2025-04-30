@@ -1,4 +1,4 @@
-import { detectLanguage } from "./LanguageDetection";
+import { detectLanguage } from "./LanguageDetector";
 
 export class TTSService {
   private static instance: TTSService;
