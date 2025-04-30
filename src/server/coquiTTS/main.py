@@ -16,11 +16,11 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 AVAILABLE_MODELS = {
     "en": {
         "tts_model": "tts_models/en/vctk/vits",
-        "speaker": "p226",  
+        "speaker": "p226",
     },
     "de": {
         "tts_model": "tts_models/de/thorsten/vits",
-        "speaker": "thorsten", 
+        "speaker": "thorsten",
     },
     "ja": {
         "tts_model": "tts_models/ja/kokoro/vits", 
@@ -33,7 +33,35 @@ _tts_lock = threading.Lock()
 _last_request = {"text": "", "timestamp": 0}
 _cooldown = 2  # seconds
 
-def generate_speech(text, lang="en", output_path=None):
+def detect_language(text):
+    """Detect the language of the input text."""
+    if not text:
+        return "en"
+    
+    # Check for Japanese characters (Hiragana, Katakana, Kanji)
+    if re.search(r'[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff66-\uff9f]', text):
+        return "ja"
+    
+    # Check for German characters and common German words
+    if re.search(r'[äöüßÄÖÜ]', text):
+        return "de"
+        
+    # Check for common German words if it's a longer text
+    german_words = ["und", "der", "die", "das", "ist", "ich", "du", "wir", "sie", "nicht", 
+                   "ein", "eine", "zu", "für", "mit", "dem", "den", "wie", "aber", "oder", 
+                   "wenn", "dann", "auch", "schon", "noch", "nur", "so", "da", "hier"]
+    
+    word_count = 0
+    for word in german_words:
+        if re.search(r'\b' + word + r'\b', text.lower()):
+            word_count += 1
+    
+    # If multiple German words are found and text is reasonably long
+    if word_count >= 2 and len(text.split()) > 3:
+        return "de"
+    return "en" 
+
+def generate_speech(text, lang=None, output_path=None):
     global _last_request
     
     try:
@@ -43,10 +71,16 @@ def generate_speech(text, lang="en", output_path=None):
             _last_request["text"] = text
             _last_request["timestamp"] = current_time
             
+            # Auto-detect language if not specified
+            if not lang or lang not in AVAILABLE_MODELS:
+                detected_lang = detect_language(text)
+                logger.info(f"Auto-detected language: {detected_lang} for text: '{text[:50]}...'")
+                lang = detected_lang
+                
             if lang not in AVAILABLE_MODELS:
                 lang = "en" 
                 
-            logger.info(f"TTS input after cleaning: '{text}'")
+            logger.info(f"Using language model: {lang} for TTS")
             
             if not text.strip() or len(text.strip()) < 3:
                 raise ValueError("Text too short or unsupported for TTS.")

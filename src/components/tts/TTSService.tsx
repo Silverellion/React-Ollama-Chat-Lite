@@ -1,3 +1,5 @@
+import { detectLanguage } from "./LanguageDetection";
+
 export class TTSService {
   private static instance: TTSService;
   private audio: HTMLAudioElement | null = null;
@@ -12,7 +14,7 @@ export class TTSService {
     return TTSService.instance;
   }
 
-  async speak(text: string, language: string = "en") {
+  async speak(text: string) {
     // Don't make duplicate requests within 2 seconds
     const now = Date.now();
     if (
@@ -26,6 +28,12 @@ export class TTSService {
     this.lastRequestText = text;
     this.lastRequestTime = now;
     this.requestInProgress = true;
+
+    // Detect language from text
+    const language = detectLanguage(text);
+    console.log(
+      `Detected language: ${language} for text: ${text.substring(0, 50)}...`
+    );
 
     const apiUrl =
       typeof window !== "undefined" && window.location.hostname !== "localhost"

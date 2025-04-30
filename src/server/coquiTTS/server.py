@@ -18,7 +18,7 @@ app.add_middleware(
 async def tts_endpoint(request: Request):
     data = await request.json()
     text = data.get("text", "")
-    lang = data.get("language", "en")
+    lang = data.get("language", None)
     if not text:
         return {"error": "No text provided"}
     try:
