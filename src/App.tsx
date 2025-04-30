@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChatManager, ChatMessage, SavedChat } from "./server/ChatManager";
 import "../global.css";
 import Sidebar from "./components/Sidebar";
@@ -6,6 +6,7 @@ import ChatBubbles from "./components/ChatBubbles";
 import GreetingMessage from "./components/GreetingMessage";
 import MainTextbox from "./components/MainTextbox";
 import { SettingsProvider } from "./components/settings/SettingsForm";
+import { TTSService } from "./components/tts/TTSService";
 
 function App() {
   const chatManager = ChatManager.getInstance();
@@ -22,6 +23,7 @@ function App() {
     text: string;
     image?: string | string[];
   } | null>(null);
+  const prevMessagesRef = useRef<ChatMessage[]>([]);
 
   const handleModelChange = (model: string, supportsImages: boolean) => {
     setCurrentModel(model);
@@ -90,6 +92,25 @@ function App() {
   const handleRenameChat = (chatId: string, newName: string) => {
     syncState(chatManager.handleRenameChat(chatId, newName));
   };
+
+  useEffect(() => {
+    const prevMessages = prevMessagesRef.current;
+    const lastIndex = messages.length - 1;
+    const prevLastIndex = prevMessages.length - 1;
+    if (
+      prevLastIndex >= 0 &&
+      lastIndex === prevLastIndex + 1 &&
+      messages.length > 0 &&
+      !messages[lastIndex].isUser &&
+      prevMessages
+        .slice(0, prevLastIndex + 1)
+        .every((msg, i) => msg === messages[i])
+    ) {
+      TTSService.getInstance().speak(messages[lastIndex].text);
+    }
+
+    prevMessagesRef.current = messages;
+  }, [messages]);
 
   return (
     <SettingsProvider>

@@ -28,8 +28,6 @@ const ChatBubbles: React.FC<Props> = ({
     timestamp?: number;
   } | null>(null);
   const processedMessagesRef = React.useRef<Set<string>>(new Set());
-  const [lastAIMessageIndex, setLastAIMessageIndex] =
-    React.useState<number>(-1);
 
   // Deduplicate messages, preserving intentional repeats
   const deduplicatedMessages = React.useMemo(() => {
@@ -122,19 +120,6 @@ const ChatBubbles: React.FC<Props> = ({
     scrollToBottom();
   }, [userInput]);
 
-  React.useEffect(() => {
-    // Find the latest AI message index
-    const latestAIIndex = deduplicatedMessages.findIndex(
-      (msg, idx) =>
-        !msg.isUser &&
-        idx === deduplicatedMessages.length - 1 &&
-        !deduplicatedMessages[deduplicatedMessages.length - 1].isUser
-    );
-    if (latestAIIndex !== -1 && latestAIIndex !== lastAIMessageIndex) {
-      setLastAIMessageIndex(latestAIIndex);
-    }
-  }, [deduplicatedMessages]);
-
   return (
     <>
       <div className="w-full overflow-y-auto flex mb-5" ref={chatContainerRef}>
@@ -146,8 +131,7 @@ const ChatBubbles: React.FC<Props> = ({
               isLatestAI={
                 !message.isUser &&
                 index === deduplicatedMessages.length - 1 &&
-                !deduplicatedMessages[deduplicatedMessages.length - 1].isUser &&
-                index === lastAIMessageIndex
+                !deduplicatedMessages[deduplicatedMessages.length - 1].isUser
               }
             />
           ))}
