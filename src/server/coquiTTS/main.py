@@ -18,7 +18,7 @@ AVAILABLE_MODELS = {
     },
     "de": {
         "tts_model": "tts_models/de/thorsten/vits",
-        "speaker": "thorsten",
+        "speaker": "thorsten", 
     },
     "ja": {
         "tts_model": "tts_models/ja/kokoro/vits",
@@ -42,8 +42,8 @@ def generate_speech(text, lang="en", output_path=None):
         tts = TTS(tts_model)
         if output_path is None:
             output_path = OUTPUT_DIR / f"tts_{int(time.time())}.wav"
-        # Try to increase speed if supported (not all models support this)
-        tts.tts_to_file(text=text, speaker=speaker, speed=1.3, file_path=str(output_path))
+        # Increase speed for faster speech
+        tts.tts_to_file(text=text, speaker=speaker, speed=1.5, file_path=str(output_path))
         return str(output_path)
     except Exception as e:
         logger.error(f"Error generating speech: {e}")

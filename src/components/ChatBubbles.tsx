@@ -130,7 +130,15 @@ const ChatBubbles: React.FC<Props> = ({
       <div className="w-full overflow-y-auto flex mb-5" ref={chatContainerRef}>
         <div className="relative w-full max-w-3xl mx-auto">
           {deduplicatedMessages.map((message, index) => (
-            <ChatBubble key={index} message={message} />
+            <ChatBubble
+              key={index}
+              message={message}
+              isLatestAI={
+                !message.isUser &&
+                index === deduplicatedMessages.length - 1 &&
+                !deduplicatedMessages[deduplicatedMessages.length - 1].isUser
+              }
+            />
           ))}
 
           {isGenerating && !streamingResponse && (

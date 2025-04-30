@@ -1,5 +1,6 @@
 export class TTSService {
   private static instance: TTSService;
+  private audio: HTMLAudioElement | null = null;
 
   static getInstance(): TTSService {
     if (!TTSService.instance) {
@@ -8,7 +9,6 @@ export class TTSService {
     return TTSService.instance;
   }
 
-  // Call this using Python CoquiTTS server
   async speak(text: string, language: string = "en") {
     const apiUrl =
       typeof window !== "undefined" && window.location.hostname !== "localhost"
@@ -29,14 +29,21 @@ export class TTSService {
       const blob = await response.blob();
       const audioUrl = URL.createObjectURL(blob);
 
-      const audio = new Audio(audioUrl);
-      audio.play();
+      if (this.audio) {
+        this.audio.pause();
+        this.audio = null;
+      }
+      this.audio = new Audio(audioUrl);
+      this.audio.play();
     } catch (error) {
       console.error("TTS error:", error);
     }
   }
 
   stop() {
-    // Implement this if you keep a reference to the Audio instance
+    if (this.audio) {
+      this.audio.pause();
+      this.audio = null;
+    }
   }
 }

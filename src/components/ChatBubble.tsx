@@ -7,14 +7,20 @@ import { TTSService } from "./tts/TTSService";
 
 type MessageBubbleProps = {
   message: ChatMessage;
+  isLatestAI?: boolean;
 };
 
-const ChatBubble: React.FC<MessageBubbleProps> = ({ message }) => {
+const ChatBubble: React.FC<MessageBubbleProps> = ({ message, isLatestAI }) => {
   const { ttsSpeechEnabled } = useContext(SettingsContext);
 
   useEffect(() => {
-    // Only speak non-user messages when TTS is enabled
-    if (!message.isUser && ttsSpeechEnabled && message.text?.trim()) {
+    // Only speak the latest non-user message when TTS is enabled
+    if (
+      isLatestAI &&
+      !message.isUser &&
+      ttsSpeechEnabled &&
+      message.text?.trim()
+    ) {
       const ttsService = TTSService.getInstance();
       ttsService.speak(message.text);
     }
@@ -26,7 +32,7 @@ const ChatBubble: React.FC<MessageBubbleProps> = ({ message }) => {
         ttsService.stop();
       }
     };
-  }, [message, ttsSpeechEnabled]);
+  }, [message, ttsSpeechEnabled, isLatestAI]);
 
   return (
     <div className={`flex ${message.isUser ? "justify-end" : "justify-start"}`}>
