@@ -39,50 +39,33 @@ AVAILABLE_MODELS = {
 def generate_speech(text, lang="en", output_path=None):
     """
     Generate speech from text using Coqui TTS models
-    Args:
-        text (str): Text to convert to speech
-        lang (str): Language code (en, de, ja)
-        output_path (str): Optional output path
-    Returns:
-        str: Path to the generated audio file
     """
     try:
-        # Get model details for the requested language or fallback to English
         model_info = AVAILABLE_MODELS.get(lang, AVAILABLE_MODELS["en"])
         tts_model = model_info["tts_model"]
         vocoder_model = model_info["vocoder_model"]
 
-        # Generate a unique filename if not provided
-        if not output_path:
-            import uuid
-            filename = f"{uuid.uuid4()}.wav"
-            output_path = OUTPUT_DIR / filename
+        manager = ModelManager()
+        tts_path, _ = manager.download_model(tts_model)
+        vocoder_path, _ = manager.download_model(vocoder_model)
+
+        synthesizer = Synthesizer(
+            tts_path,
+            vocoder_path,
+            None,
+            None,
+            None,
+            False,
+        )
+
+        if output_path is None:
+            output_path = OUTPUT_DIR / f"tts_{int(time.time())}.wav"
         else:
             output_path = Path(output_path)
 
-        # Set models paths
-        manager = ModelManager(models_dir=str(MODELS_DIR))
-        
-        # Download models if they don't exist
-        model_path, config_path, _ = manager.download_model(tts_model)
-        vocoder_path, vocoder_config_path, _ = manager.download_model(vocoder_model)
-        
-        # Initialize synthesizer
-        synthesizer = Synthesizer(
-            tts_checkpoint=model_path,
-            tts_config_path=config_path,
-            vocoder_checkpoint=vocoder_path,
-            vocoder_config=vocoder_config_path,
-            use_cuda=False  # Set to True if you have a GPU
-        )
-        
-        # Generate the speech
-        outputs = synthesizer.tts(text)
-        synthesizer.save_wav(outputs, str(output_path))
-        
-        # Return the path to the generated file
+        wav = synthesizer.tts(text)
+        synthesizer.save_wav(wav, str(output_path))
         return str(output_path)
-    
     except Exception as e:
         logger.error(f"Error generating speech: {e}")
         raise
