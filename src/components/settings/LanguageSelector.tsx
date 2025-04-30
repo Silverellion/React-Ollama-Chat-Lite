@@ -14,7 +14,6 @@ const LanguageSelector: React.FC = () => {
     { code: "en-US", name: "English" },
     { code: "ja-JP", name: "Japanese" },
     { code: "de-DE", name: "German" },
-    { code: "fr-FR", name: "French" },
   ];
 
   return (
