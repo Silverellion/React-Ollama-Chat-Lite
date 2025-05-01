@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { ChatManager, ChatMessage, SavedChat } from "./server/ChatManager";
 import "../global.css";
 import Sidebar from "./components/Sidebar";
 import ChatBubbles from "./components/ChatBubbles";
 import GreetingMessage from "./components/GreetingMessage";
 import MainTextbox from "./components/MainTextbox";
-import { SettingsProvider } from "./components/settings/SettingsForm";
 import { TTSService } from "./components/tts/TTSService";
+import { SettingsContext } from "./components/settings/SettingsForm";
 
 function App() {
   const chatManager = ChatManager.getInstance();
@@ -24,6 +24,7 @@ function App() {
     image?: string | string[];
   } | null>(null);
   const prevMessagesRef = useRef<ChatMessage[]>([]);
+  const { ttsSpeechEnabled } = useContext(SettingsContext);
 
   const handleModelChange = (model: string, supportsImages: boolean) => {
     setCurrentModel(model);
@@ -98,6 +99,7 @@ function App() {
     const lastIndex = messages.length - 1;
     const prevLastIndex = prevMessages.length - 1;
     if (
+      ttsSpeechEnabled && // Only speak if enabled
       prevLastIndex >= 0 &&
       lastIndex === prevLastIndex + 1 &&
       messages.length > 0 &&
@@ -110,59 +112,55 @@ function App() {
     }
 
     prevMessagesRef.current = messages;
-  }, [messages]);
+  }, [messages, ttsSpeechEnabled]);
 
   return (
-    <SettingsProvider>
-      <div className="w-screen h-screen bg-[rgb(30,30,30)] flex">
-        <Sidebar
-          isCollapsed={isSidebarCollapsed}
-          toggleSidebar={() => setSidebarCollapsed((prev) => !prev)}
-          savedChats={savedChats}
-          onNewChat={handleNewChat}
-          onLoadChat={handleLoadChat}
-          onDeleteChat={handleDeleteChat}
-          onRenameChat={handleRenameChat}
+    <div className="w-screen h-screen bg-[rgb(30,30,30)] flex">
+      <Sidebar
+        isCollapsed={isSidebarCollapsed}
+        toggleSidebar={() => setSidebarCollapsed((prev) => !prev)}
+        savedChats={savedChats}
+        onNewChat={handleNewChat}
+        onLoadChat={handleLoadChat}
+        onDeleteChat={handleDeleteChat}
+        onRenameChat={handleRenameChat}
+      />
+      <div
+        className={`flex flex-col transition-all duration-300 w-full ${
+          isSidebarCollapsed ? "ml-[20px] mr-[20px]" : "md:ml-[300px] ml-[0px]"
+        } ${
+          isChatStarted
+            ? "items-center justify-end"
+            : "items-center justify-center"
+        }`}
+      >
+        {!isChatStarted && <GreetingMessage />}
+
+        <ChatBubbles
+          userInput={userInput}
+          messages={messages}
+          model={currentModel}
+          supportsImages={supportsImages}
+          onAIResponse={(response) => {
+            if (response) {
+              syncState(chatManager.updateWithAIResponse(response, messages));
+            }
+          }}
         />
+
         <div
-          className={`flex flex-col transition-all duration-300 w-full ${
-            isSidebarCollapsed
-              ? "ml-[20px] mr-[20px]"
-              : "md:ml-[300px] ml-[0px]"
-          } ${
-            isChatStarted
-              ? "items-center justify-end"
-              : "items-center justify-center"
+          className={`w-full flex justify-center ${
+            isChatStarted ? "mt-auto" : "mt-8"
           }`}
         >
-          {!isChatStarted && <GreetingMessage />}
-
-          <ChatBubbles
-            userInput={userInput}
-            messages={messages}
-            model={currentModel}
-            supportsImages={supportsImages}
-            onAIResponse={(response) => {
-              if (response) {
-                syncState(chatManager.updateWithAIResponse(response, messages));
-              }
-            }}
+          <MainTextbox
+            setUserInput={handleUserInput}
+            setUserImage={handleUserImageWithText}
+            onModelChange={handleModelChange}
           />
-
-          <div
-            className={`w-full flex justify-center ${
-              isChatStarted ? "mt-auto" : "mt-8"
-            }`}
-          >
-            <MainTextbox
-              setUserInput={handleUserInput}
-              setUserImage={handleUserImageWithText}
-              onModelChange={handleModelChange}
-            />
-          </div>
         </div>
       </div>
-    </SettingsProvider>
+    </div>
   );
 }
 
