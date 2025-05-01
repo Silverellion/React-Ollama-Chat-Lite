@@ -100,7 +100,7 @@ def generate_speech(text, lang=None, output_path=None):
             if output_path is None:
                 output_path = OUTPUT_DIR / f"tts_{int(time.time())}.wav"
 
-            tts.tts_to_file(text=final_text, speaker=speaker, speed=1.5, file_path=str(output_path))
+            tts.tts_to_file(text=final_text, speaker=speaker, speed=1.3, file_path=str(output_path))
 
             return str(output_path)
     except Exception as e:
